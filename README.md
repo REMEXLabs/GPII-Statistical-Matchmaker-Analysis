@@ -20,7 +20,7 @@ use their preference sets for clustering.
 
 Simply run the following command in a directory of your choice: 
 ```
-git clone git://REMEXLabs/GPII-Statistical-Matchmaker-Analysis
+git clone https://github.com/REMEXLabs/GPII-Statistical-Matchmaker-Analysis
 ```
 
 ## Compiling the Analysis Component
