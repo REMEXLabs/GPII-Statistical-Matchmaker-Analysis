@@ -32,7 +32,7 @@ You can also use [SharpDevelop](https://github.com/icsharpcode/SharpDevelop/wiki
 
 (On Linux ...: @@TODO: describe.)
 
-## Using the Analysis Component
+## Running the Analysis Component
 
 (@@TODO: describe.)
 
@@ -40,4 +40,5 @@ You can also use [SharpDevelop](https://github.com/icsharpcode/SharpDevelop/wiki
 ## Funding Acknowledgement
 
 The research leading to these results has received funding from the European
-Union's Seventh Framework Programme (FP7/2007-2013) under grant agreement No.289016.
+Union's Seventh Framework Programme (FP7/2007-2013) under grant agreement No.289016
+([Cloud4all](http://www.cloud4all.info/)).
