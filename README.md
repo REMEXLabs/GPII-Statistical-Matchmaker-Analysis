@@ -25,15 +25,18 @@ git clone https://github.com/REMEXLabs/GPII-Statistical-Matchmaker-Analysis
 
 ## Compiling the Analysis Component
 
-On Windows, open the project in Microsoft Visual Studio Express or another IDE in the Visual Stuio family
+### Compiling on MS Windows
+On Microsoft Windows, open the project in Microsoft Visual Studio Express or another IDE in the Visual Stuio family
 and press F7 ("Build Solution"). 
-You can also use [SharpDevelop](https://github.com/icsharpcode/SharpDevelop/wiki/Keyboard-Shortcuts#09) or 
-[MonoDevelop](http://www.monodevelop.com/). 
+(You can probably also use [SharpDevelop](https://github.com/icsharpcode/SharpDevelop/wiki/Keyboard-Shortcuts#09) or 
+[MonoDevelop](http://www.monodevelop.com/); we have not tested these tools.) 
 
-(On Linux ...: @@TODO: describe.)
+### Compiling on Linux
+On Linux install the Mono framework; see the [instructions for Fedora](http://www.mono-project.com/docs/getting-started/install/linux/#centos-fedora-and-derivatives) on the website of the Mono Project.
+
+After installing Mono, you should be able to compile Visual Basic code in a terminal using `vbnc`, Mono's Visual Basic compiler. However, the Statistical Matchmaker has not yet been compiled on Linux.
 
 ## Running the Analysis Component
-
 (@@TODO: describe.)
 
 
