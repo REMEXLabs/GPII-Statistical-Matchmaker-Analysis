@@ -5,7 +5,7 @@
     'Profiles
     Private _ConfigFile As IO.FileInfo
     Private _ProfilesDirectory As IO.DirectoryInfo
-    Private _Profiles As New List(Of Preferences.Profile)
+    Private _Profiles As New List(Of Profile)
 
     Sub Main()
         'Parse arguments
@@ -30,7 +30,7 @@
             Console.WriteLine("Could not find config file, reverted to :'" & _ConfigFile.FullName & "'")
         End If
         'Read Config
-        Clustering.ReadConfiguration(_ConfigFile)
+        ReadConfiguration(_ConfigFile)
         'Preprocess Profiles
         Dim generatedDirectory As New IO.DirectoryInfo(_ProfilesDirectory.FullName & "\generated")
         If Not generatedDirectory.Exists Then generatedDirectory.Create()
@@ -42,19 +42,19 @@
         Else
             Throw New NotSupportedException("Preference Directory not set.")
         End If
-        Preferences.GetMinsAndMaxs(_Profiles)
+        GetMinsAndMaxs(_Profiles)
         'Cluster
-        Dim clusters As List(Of HashSet(Of Preferences.Profile)) = Nothing
-        Dim noise As HashSet(Of Preferences.Profile) = Nothing
-        For Each clusterer In Clustering.Config
+        Dim clusters As List(Of HashSet(Of Profile)) = Nothing
+        Dim noise As HashSet(Of Profile) = Nothing
+        For Each clusterer In Config
             clusterer.Run(_Profiles, clusters, noise)
         Next
         'Start Processing
-        Dim generalized As New List(Of Preferences.Profile)
-        For Each c As HashSet(Of Preferences.Profile) In clusters
-            Dim center As Preferences.Profile = Nothing
-            Dim distances As SortedDictionary(Of Double, HashSet(Of Preferences.Profile)) = Nothing
-            Preferences.FindCenter(c, center, distances)
+        Dim generalized As New List(Of Profile)
+        For Each c As HashSet(Of Profile) In clusters
+            Dim center As Profile = Nothing
+            Dim distances As SortedDictionary(Of Double, HashSet(Of Profile)) = Nothing
+            FindCenter(c, center, distances)
             'generalized.Add(Preferences.GeneralizeProfile(center, distances, _Profiles))
             generalized.Add(center)
         Next
@@ -84,7 +84,7 @@
         Next
     End Sub
 
-    Private Sub WriteJavaScript(clusters As List(Of Preferences.Profile))
+    Private Sub WriteJavaScript(clusters As List(Of Profile))
         Dim writer As New IO.StreamWriter(_ProfilesDirectory.FullName & "\StatisticalMatchMakerData.js", False)
         writer.WriteLine("/*!")
         writer.WriteLine()
@@ -108,21 +108,21 @@
         writer.WriteLine("var stat = fluid.registerNamespace(""gpii.matchMaker.statistical"");")
 
         'entry count
-        writer.WriteLine("stat.entryCount = " & Preferences.EntryNames.Count & ";")
+        writer.WriteLine("stat.entryCount = " & EntryNames.Count & ";")
 
         'clusters
         writer.WriteLine("stat.clusters = [")
         For c = 0 To clusters.Count - 1
-            Dim cluster As Preferences.Profile = clusters(c)
+            Dim cluster As Profile = clusters(c)
             writer.WriteLine(vbTab & "{")
             'sort by application
-            Dim prefsByApp As New Dictionary(Of String, HashSet(Of Preferences.Entry))
-            For n = 0 To Preferences.EntryNames.Count - 1
-                Dim entry As Preferences.Entry = Nothing
-                If cluster.PreferenceEntries.TryGetValue(Preferences.EntryNames(n), entry) Then
-                    Dim appPrefs As HashSet(Of Preferences.Entry) = Nothing
+            Dim prefsByApp As New Dictionary(Of String, HashSet(Of Entry))
+            For n = 0 To EntryNames.Count - 1
+                Dim entry As Entry = Nothing
+                If cluster.PreferenceEntries.TryGetValue(EntryNames(n), entry) Then
+                    Dim appPrefs As HashSet(Of Entry) = Nothing
                     If Not prefsByApp.TryGetValue(entry.Application, appPrefs) Then
-                        appPrefs = New HashSet(Of Preferences.Entry)
+                        appPrefs = New HashSet(Of Entry)
                         prefsByApp(entry.Application) = appPrefs
                     End If
                     appPrefs.Add(entry)
@@ -151,29 +151,29 @@
         'properties
         writer.WriteLine("stat.preferenceTypes = {")
         Dim typesByApp As New Dictionary(Of String, List(Of PreferenceType))
-        For n = 0 To Preferences.EntryNames.Count - 1
-            Dim entryName As String = Preferences.EntryNames(n)
+        For n = 0 To EntryNames.Count - 1
+            Dim entryName As String = EntryNames(n)
             Dim appPrefs As List(Of PreferenceType) = Nothing
-            If Not typesByApp.TryGetValue(Preferences.EntryApp(entryName), appPrefs) Then
+            If Not typesByApp.TryGetValue(EntryApp(entryName), appPrefs) Then
                 appPrefs = New List(Of PreferenceType)
-                typesByApp(Preferences.EntryApp(entryName)) = appPrefs
+                typesByApp(EntryApp(entryName)) = appPrefs
             End If
             Dim newPrefType As New PreferenceType
             newPrefType.name = entryName
-            newPrefType.IsEnum = Preferences.IsEnumeration(entryName)
-            newPrefType.Min = Preferences.EntryMin(entryName)
-            newPrefType.Max = Preferences.EntryMax(entryName)
+            newPrefType.IsEnum = IsEnumeration(entryName)
+            newPrefType.Min = EntryMin(entryName)
+            newPrefType.Max = EntryMax(entryName)
             appPrefs.Add(newPrefType)
         Next
         'print
         For Each pair In typesByApp
             writer.WriteLine(vbTab & """" & pair.Key & """: {")
             For n = 0 To pair.Value.Count - 1
-                writer.WriteLine(vbTab & vbTab & """" & Preferences.EntryPrintName(pair.Value(n).name) & """: {")
+                writer.WriteLine(vbTab & vbTab & """" & EntryPrintName(pair.Value(n).name) & """: {")
                 If pair.Value(n).IsEnum Then
                     writer.WriteLine(vbTab & vbTab & vbTab & """isEnum"": true,")
                     writer.WriteLine(vbTab & vbTab & vbTab & """min"": 0,")
-                    writer.WriteLine(vbTab & vbTab & vbTab & """max"": " & Preferences.EnumerationSize(pair.Value(n).name))
+                    writer.WriteLine(vbTab & vbTab & vbTab & """max"": " & EnumerationSize(pair.Value(n).name))
                 Else
                     writer.WriteLine(vbTab & vbTab & vbTab & """isEnum"": false,")
                     writer.WriteLine(vbTab & vbTab & vbTab & """min"": " & pair.Value(n).Min & ",")
@@ -195,13 +195,13 @@
         writer.Close()
     End Sub
 
-    Private Function WriteJavaScriptEntry(entry As Preferences.Entry) As String
-        If Preferences.IsEnumeration(entry) Then
-            Dim enumValue As String = Preferences.ToEnumeration(entry.Name, entry.Value)
+    Private Function WriteJavaScriptEntry(entry As Entry) As String
+        If IsEnumeration(entry) Then
+            Dim enumValue As String = ToEnumeration(entry.Name, entry.Value)
             If Not (enumValue.ToLower = "true" Or enumValue.ToLower = "false") Then enumValue = """" & enumValue & """"
-            Return """" & Preferences.EntryPrintName(entry.Name) & """: " & enumValue & ""
+            Return """" & EntryPrintName(entry.Name) & """: " & enumValue & ""
         Else
-            Return """" & Preferences.EntryPrintName(entry.Name) & """: " & entry.Value & ""
+            Return """" & EntryPrintName(entry.Name) & """: " & entry.Value & ""
         End If
     End Function
 

@@ -2,8 +2,8 @@
     Private Const _TokenContext As String = "[context]"
     Private Const _TokenPreferences As String = "[preferences]"
 
-    Public Sub ReadProfile(file As IO.FileInfo, profiles As List(Of Preferences.Profile))
-        Dim profile As New Preferences.Profile(file)
+    Public Sub ReadProfile(file As IO.FileInfo, profiles As List(Of Profile))
+        Dim profile As New Profile(file)
         profiles.Add(profile)
         'Read file
         Dim parseMode As ParseMode = parseMode.None
@@ -39,10 +39,10 @@
                     Else
                         Select Case parseMode
                             Case Parser.ParseMode.Context
-                                Dim newEntry As Preferences.Entry = Preferences.ToEntry("context", name, value)
+                                Dim newEntry As Entry = ToEntry("context", name, value)
                                 profile.ContextEntries(newEntry.Name) = newEntry
                             Case Parser.ParseMode.Preferences
-                                Dim newEntry As Preferences.Entry = Preferences.ToEntry(application, name, value)
+                                Dim newEntry As Entry = ToEntry(application, name, value)
                                 profile.PreferenceEntries(newEntry.Name) = newEntry
                         End Select
                     End If
