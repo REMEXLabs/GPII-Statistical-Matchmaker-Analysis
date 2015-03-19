@@ -20,6 +20,15 @@
             End Select
             i += 2
         End While
+        'Check directories and config
+        If _ProfilesDirectory Is Nothing OrElse Not _ProfilesDirectory.Exists Then
+            _ProfilesDirectory = New IO.DirectoryInfo(IO.Directory.GetCurrentDirectory.TrimEnd("\") & "\GPII-Statistical-Matchmaker-Data")
+            Console.WriteLine("Could not find profiles directory, reverted to :'" & _ProfilesDirectory.FullName & "'")
+        End If
+        If _ConfigFile Is Nothing OrElse Not _ConfigFile.Exists Then
+            _ConfigFile = New IO.FileInfo(IO.Directory.GetCurrentDirectory.TrimEnd("\") & "\GPII-Statistical-Matchmaker-Data\config.ini")
+            Console.WriteLine("Could not find config file, reverted to :'" & _ConfigFile.FullName & "'")
+        End If
         'Read Config
         Clustering.ReadConfiguration(_ConfigFile)
         'Preprocess Profiles
@@ -149,10 +158,12 @@
                 appPrefs = New List(Of PreferenceType)
                 typesByApp(Preferences.EntryApp(entryName)) = appPrefs
             End If
-            appPrefs.Add(New PreferenceType With {.name = entryName,
-                                                  .IsEnum = Preferences.IsEnumeration(entryName),
-                                                  .Min = Preferences.EntryMin(entryName),
-                                                  .Max = Preferences.EntryMax(entryName)})
+            Dim newPrefType As New PreferenceType
+            newPrefType.name = entryName
+            newPrefType.IsEnum = Preferences.IsEnumeration(entryName)
+            newPrefType.Min = Preferences.EntryMin(entryName)
+            newPrefType.Max = Preferences.EntryMax(entryName)
+            appPrefs.Add(newPrefType)
         Next
         'print
         For Each pair In typesByApp
