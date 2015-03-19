@@ -32,9 +32,7 @@ and press F7 ("Build Solution").
 [MonoDevelop](http://www.monodevelop.com/); we have not tested these tools.) 
 
 ### Compiling on Linux
-On Linux install the Mono framework; see the [instructions for Fedora](http://www.mono-project.com/docs/getting-started/install/linux/#centos-fedora-and-derivatives) on the website of the Mono Project.
-
-After installing Mono, you should be able to compile Visual Basic code in a terminal using `vbnc`, Mono's Visual Basic compiler. However, the Statistical Matchmaker has not yet been compiled on Linux.
+After installing the Mono Framework (see the [instructions for Fedora](http://www.mono-project.com/docs/getting-started/install/linux/#centos-fedora-and-derivatives)), you should in theory be able to compile Visual Basic code in a terminal using `vbnc`, Mono's Visual Basic compiler, or with [MonoDevelop](http://www.monodevelop.com/). However, this does not work yet.
 
 ## Running the Analysis Component
 (@@TODO: describe.)
