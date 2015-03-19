@@ -64,6 +64,10 @@
   <ItemGroup>
     <Compile Include="Clustering\iClustering.vb" />
     <Compile Include="Clustering\Config.vb" />
+    <Compile Include="Preferences\Abstracts.vb" />
+    <Compile Include="Preferences\Entry.vb" />
+    <Compile Include="Preferences\EntryManager.vb" />
+    <Compile Include="Preferences\Profile.vb" />
     <Compile Include="Main.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -82,10 +86,6 @@
     </Compile>
     <Compile Include="Parser\Parser.vb" />
     <Compile Include="Clustering\DBScan.vb" />
-    <Compile Include="Preferences\Abstracts.vb" />
-    <Compile Include="Preferences\Entry.vb" />
-    <Compile Include="Preferences\EntryManager.vb" />
-    <Compile Include="Preferences\Profile.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
