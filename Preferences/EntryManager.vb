@@ -63,7 +63,10 @@
                     entryType = Preferences.EntryType.Number
                     _EntryTypes(internalName) = entryType
                 End If
-                If Not entryType = Preferences.EntryType.Number Then Throw New NotSupportedException("Profile entry type """ & internalName & """ is not registered as a number, but value passed was """ & number & """")
+                If Not entryType = Preferences.EntryType.Number Then
+                    Dim knownValues As List(Of String) = _EnumerationValues(internalName)
+                    Throw New NotSupportedException("Profile entry type """ & internalName & """ is not registered as a number, but value passed was """ & number & """")
+                End If
                 Return New Entry(application, internalName, number)
             Else
                 value = value.Trim(" ", vbTab, """").ToLower
@@ -71,7 +74,10 @@
                     _EntryTypes(internalName) = Preferences.EntryType.Enumeration
                     entryType = Preferences.EntryType.Enumeration
                 End If
-                If Not entryType = Preferences.EntryType.Enumeration Then Throw New NotSupportedException("Profile entry type """ & internalName & """ is not registered as a enumeration, but value passed was """ & value & """")
+                If Not entryType = Preferences.EntryType.Enumeration Then
+                    Dim knownValues As List(Of String) = _EnumerationValues(internalName)
+                    Throw New NotSupportedException("Profile entry type """ & internalName & """ is not registered as a enumeration, but value passed was """ & value & """")
+                End If
                 Dim enumerationValues As List(Of String) = Nothing
                 If Not _EnumerationValues.TryGetValue(internalName, enumerationValues) Then
                     enumerationValues = New List(Of String)

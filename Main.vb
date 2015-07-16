@@ -42,7 +42,13 @@
         Else
             Throw New NotSupportedException("Preference Directory not set.")
         End If
+        Console.WriteLine("--------")
+        Console.WriteLine("Finished loading " & _Profiles.Count & " profiles.")
+        Console.WriteLine("--------")
+        Console.WriteLine("Analyzing preferences...")
         Preferences.GetMinsAndMaxs(_Profiles)
+        Console.WriteLine("--------")
+        Console.WriteLine("Clustering...")
         'Cluster
         Dim clusters As List(Of HashSet(Of Preferences.Profile)) = Nothing
         Dim noise As HashSet(Of Preferences.Profile) = Nothing
@@ -50,6 +56,8 @@
             clusterer.Run(_Profiles, clusters, noise)
         Next
         'Start Processing
+        Console.WriteLine("--------")
+        Console.WriteLine("Reducing clusters...")
         Dim generalized As New List(Of Preferences.Profile)
         For Each c As HashSet(Of Preferences.Profile) In clusters
             Dim center As Preferences.Profile = Nothing
@@ -114,6 +122,7 @@
         writer.WriteLine("stat.clusters = [")
         For c = 0 To clusters.Count - 1
             Dim cluster As Preferences.Profile = clusters(c)
+            If cluster.PreferenceEntries.Count = 0 Then Continue For
             writer.WriteLine(vbTab & "{")
             'sort by application
             Dim prefsByApp As New Dictionary(Of String, HashSet(Of Preferences.Entry))

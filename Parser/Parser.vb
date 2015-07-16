@@ -3,6 +3,7 @@
     Private Const _TokenPreferences As String = "[preferences]"
 
     Public Sub ReadProfile(file As IO.FileInfo, profiles As List(Of Preferences.Profile))
+        Console.WriteLine("Reading profile: """ & file.FullName & """")
         Dim profile As New Preferences.Profile(file)
         profiles.Add(profile)
         'Read file
@@ -37,14 +38,18 @@
                     If name = "app" Then
                         application = value.Trim("""")
                     Else
-                        Select Case parseMode
-                            Case Parser.ParseMode.Context
-                                Dim newEntry As Preferences.Entry = Preferences.ToEntry("context", name, value)
-                                profile.ContextEntries(newEntry.Name) = newEntry
-                            Case Parser.ParseMode.Preferences
-                                Dim newEntry As Preferences.Entry = Preferences.ToEntry(application, name, value)
-                                profile.PreferenceEntries(newEntry.Name) = newEntry
-                        End Select
+                        Try
+                            Select Case parseMode
+                                Case Parser.ParseMode.Context
+                                    Dim newEntry As Preferences.Entry = Preferences.ToEntry("context", name, value)
+                                    profile.ContextEntries(newEntry.Name) = newEntry
+                                Case Parser.ParseMode.Preferences
+                                    Dim newEntry As Preferences.Entry = Preferences.ToEntry(application, name, value)
+                                    profile.PreferenceEntries(newEntry.Name) = newEntry
+                            End Select
+                        Catch ex As Exception
+                            Console.WriteLine("ERROR: """ & ex.Message & """")
+                        End Try
                     End If
             End Select
         End While
