@@ -207,7 +207,7 @@
     Private Function WriteJavaScriptEntry(entry As Preferences.Entry) As String
         If Preferences.IsEnumeration(entry) Then
             Dim enumValue As String = Preferences.ToEnumeration(entry.Name, entry.Value).Trim(",", """", " ")
-            If Not (enumValue.ToLower = "true" Or enumValue.ToLower = "false" Or enumValue.First = "["c) Then enumValue = """" & enumValue & """"
+            If Not (enumValue.ToLower = "true" Or enumValue.ToLower = "false" Or enumValue.First = "["c Or enumValue.First = "{"c) Then enumValue = """" & enumValue & """"
             Return """" & Preferences.EntryPrintName(entry.Name) & """: " & enumValue & ""
         Else
             Return """" & Preferences.EntryPrintName(entry.Name) & """: " & entry.Value & ""
