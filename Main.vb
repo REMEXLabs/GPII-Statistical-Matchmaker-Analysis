@@ -2,8 +2,10 @@
     'Arguments
     Private Const _ArgConfigFile As String = "-c"
     Private Const _ArgProfilesDirectory As String = "-p"
+    Private Const _ArgOutputFile As String = "-o"
     'Profiles
     Private _ConfigFile As IO.FileInfo
+    Private _OutputFile As IO.FileInfo
     Private _ProfilesDirectory As IO.DirectoryInfo
     Private _Profiles As New List(Of Preferences.Profile)
 
@@ -17,6 +19,8 @@
                     If i < args.Count - 1 Then _ProfilesDirectory = New IO.DirectoryInfo(args(i + 1).TrimEnd("\"))
                 Case _ArgConfigFile
                     If i < args.Count - 1 Then _ConfigFile = New IO.FileInfo(args(i + 1).Trim)
+                Case _ArgOutputFile
+                    If i < args.Count - 1 Then _OutputFile = New IO.FileInfo(args(i + 1).Trim)
             End Select
             i += 2
         End While
@@ -28,6 +32,19 @@
         If _ConfigFile Is Nothing OrElse Not _ConfigFile.Exists Then
             _ConfigFile = New IO.FileInfo(IO.Directory.GetCurrentDirectory.TrimEnd("\") & "\GPII-Statistical-Matchmaker-Data\config.ini")
             Console.WriteLine("Could not find config file, reverted to :'" & _ConfigFile.FullName & "'")
+        End If
+        If _OutputFile Is Nothing OrElse Not _OutputFile.Exists Then
+            _OutputFile = New IO.FileInfo(_ProfilesDirectory.FullName & "\StatisticalMatchMakerData.js")
+            Console.WriteLine("Could not find config file, reverted to :'" & _OutputFile.FullName & "'")
+        End If
+        'Check if everything is there
+        If Not _ProfilesDirectory.Exists Then
+            Console.WriteLine("CRITICAL: Profiles directory (""" & _ProfilesDirectory.FullName & """) does not exist.")
+            Exit Sub
+        End If
+        If Not _ConfigFile.Exists Then
+            Console.WriteLine("CRITICAL: Config File (""" & _ConfigFile.FullName & """) does not exist.")
+            Exit Sub
         End If
         'Read Config
         Clustering.ReadConfiguration(_ConfigFile)
@@ -93,7 +110,10 @@
     End Sub
 
     Private Sub WriteJavaScript(clusters As List(Of Preferences.Profile))
-        Dim writer As New IO.StreamWriter(_ProfilesDirectory.FullName & "\StatisticalMatchMakerData.js", False)
+        If Not _OutputFile.Directory.Exists Then
+            _OutputFile.Directory.Create()
+        End If
+        Dim writer As New IO.StreamWriter(_OutputFile.FullName, False)
         writer.WriteLine("/*!")
         writer.WriteLine()
         writer.WriteLine("GPII/Cloud4all Statistical Matchmaker ")
