@@ -41,14 +41,15 @@ After installing the Mono Framework (see the [instructions for Fedora](http://ww
 
 ## Running the Analysis Component
 
-You need a collection of users preference sets in .ini format. See https://github.com/REMEXLabs/GPII-Statistical-Matchmaker-Data for details. This description assumes that you used the official training data repository (https://github.com/REMEXLabs/GPII-Statistical-Matchmaker-Data).
-There are two important command line parameters you have to set for the analysis tool.
--p should point to the folder storing the preferences. It will recursively take all .ini files as preferences.
--c should point to the config.ini
+You need a collection of users preference sets in .ini format. See [training data repository](https://github.com/REMEXLabs/GPII-Statistical-Matchmaker-Data) for details. This description assumes that you used the official [training data repository](https://github.com/REMEXLabs/GPII-Statistical-Matchmaker-Data).
+There are three important command line parameters you have to set for the analysis tool.
+* `-p` should point to the folder storing the preferences. It will recursively take all .ini files as preferences.
+* `-c` should point to the `config.ini` file.
+* `-o` should point to the file (including its path) that represents the output of the analysis. 
 
 For example:
 ```
-StatisticalAnalysis.exe -p "C:\GPII-Statistical-Matchmaker-Data" -c "C:\GPII-Statistical-Matchmaker-Data\config.ini"
+StatisticalAnalysis.exe -p "C:\GPII-Statistical-Matchmaker-Data" -c "C:\GPII-Statistical-Matchmaker-Data\config.ini" -o "C:\GPII-Statistical-Matchmaker\lib\StatisticalMatchMakerData.js"
 ```
 
 
