@@ -33,9 +33,9 @@
             _ConfigFile = New IO.FileInfo(IO.Directory.GetCurrentDirectory.TrimEnd("\") & "\GPII-Statistical-Matchmaker-Data\config.ini")
             Console.WriteLine("Could not find config file, reverted to :'" & _ConfigFile.FullName & "'")
         End If
-        If _OutputFile Is Nothing OrElse Not _OutputFile.Exists Then
+        If _OutputFile Is Nothing Then
             _OutputFile = New IO.FileInfo(_ProfilesDirectory.FullName & "\StatisticalMatchMakerData.js")
-            Console.WriteLine("Could not find config file, reverted to :'" & _OutputFile.FullName & "'")
+            Console.WriteLine("Output file not specified, reverted to :'" & _OutputFile.FullName & "'")
         End If
         'Check if everything is there
         If Not _ProfilesDirectory.Exists Then
