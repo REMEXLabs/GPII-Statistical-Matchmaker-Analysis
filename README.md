@@ -33,8 +33,10 @@ git clone https://github.com/REMEXLabs/GPII-Statistical-Matchmaker-Analysis
 ### Compiling on MS Windows
 On Microsoft Windows, open the project in Microsoft Visual Studio Express or another IDE in the Visual Stuio family
 and press F7 ("Build Solution"). 
-(You can probably also use [SharpDevelop](https://github.com/icsharpcode/SharpDevelop/wiki/Keyboard-Shortcuts#09) or 
-[MonoDevelop](http://www.monodevelop.com/); we have not tested these tools.) 
+(You can probably also use [SharpDevelop](https://github.com/icsharpcode/SharpDevelop/wiki/Keyboard-Shortcuts#09) 
+but we have not tested this.) 
+(We have not found a way to compile the Analysys Component with [MonoDevelop](http://www.monodevelop.com/) 4.0/Xamarin,
+which does not seem to support the .NET SDK 4.5.)
 
 ### Compiling on Linux
 After installing the Mono Framework (see the [instructions for Fedora](http://www.mono-project.com/docs/getting-started/install/linux/#centos-fedora-and-derivatives)), you should *in theory* be able to compile Visual Basic code in a terminal using `vbnc`, Mono's Visual Basic compiler, or with [MonoDevelop](http://www.monodevelop.com/). However, this does not work yet.
