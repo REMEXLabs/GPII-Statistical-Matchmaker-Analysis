@@ -19,7 +19,7 @@ use their preference sets for clustering.
 ## Dependencies
 
 * .NET Framework 4.5 (although the project also compiles when you set the target framework to .NET Framework 3.5)
-* [Training data](http://issues.gpii.net/browse/GPII-1121)
+* [Training data](https://github.com/REMEXLabs/GPII-Statistical-Matchmaker-Data)
 
 ## Getting the Analysis Component
 
