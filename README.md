@@ -55,6 +55,9 @@ For example:
 StatisticalAnalysis.exe -p "C:\GPII-Statistical-Matchmaker-Data" -c "C:\GPII-Statistical-Matchmaker-Data\config.ini" -o "C:\GPII-Statistical-Matchmaker\lib\StatisticalMatchMakerData.js"
 ```
 
+## Licence
+
+The code of the GPII/Cloud4all Statistical Matchmaker's analysis component is available under the [BSD 3-Clause License](https://github.com/REMEXLabs/GPII-Statistical-Matchmaker-Analysis/blob/master/LICENSE.txt).
 
 ## Funding Acknowledgement
 
