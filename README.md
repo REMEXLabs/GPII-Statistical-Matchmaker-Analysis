@@ -1,5 +1,7 @@
 # GPII/Cloud4all Statistical Matchmaker: Analysis Component
 
+**Important notice, September 2020**: This repository was last updated in July 2015, while the [GPII's real-time framework](https://github.com/GPII/universal), for which the Statistical Matchmaker provided a component, has evolved considerably since that time. Since compatibility with that framework cannot be guaranteed, this repository will be archived.
+
 ## Introduction
 
 The analysis module is one of several components of the GPII/Cloud4all Statistical Matchmaker. 
